@@ -1,0 +1,77 @@
+<!-- contact.component.html -->
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Search contacts</mat-label>
+    <input matInput type="text" placeholder="Search contacts" [(ngModel)]="searchKeyword" (keyup)="searchContacts()">
+    <button mat-button matSuffix (click)="searchContacts()">Search</button>
+  </mat-form-field>
+</div>
+
+<!-- Display contact details -->
+<div *ngIf="!editMode">
+  <table mat-table [dataSource]="contacts">
+    <!-- Name column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let contact">{{ contact.name }}</td>
+    </ng-container>
+
+    <!-- Email column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+    </ng-container>
+
+    <!-- Phone column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
+    </ng-container>
+
+    <!-- Actions column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let contact">
+        <button mat-icon-button color="warn" (click)="deleteContact(contact.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="enableEditMode(contact)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Define table rows -->
+    <tr mat-header-row *matHeaderRowDef="['name', 'email', 'phone', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'email', 'phone', 'actions'];"></tr>
+  </table>
+</div>
+
+<!-- Edit contact form -->
+<div *ngIf="editMode">
+  <mat-form-field appearance="fill">
+    <input matInput type="text" placeholder="Name" [(ngModel)]="editedContact.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput type="email" placeholder="Email" [(ngModel)]="editedContact.email">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput type="tel" placeholder="Phone" [(ngModel)]="editedContact.phone">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="updateEditedContact()">Update Contact</button>
+  <button mat-raised-button (click)="cancelEditMode()">Cancel</button>
+</div>
+
+<!-- Add new contact form -->
+<div>
+  <mat-form-field appearance="fill">
+    <input matInput type="text" placeholder="Name" [(ngModel)]="newContact.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput type="email" placeholder="Email" [(ngModel)]="newContact.email">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <input matInput type="tel" placeholder="Phone" [(ngModel)]="newContact.phone">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="addContact()">Add Contact</button>
+</div>
