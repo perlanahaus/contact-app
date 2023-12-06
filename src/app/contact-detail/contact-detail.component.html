@@ -1,0 +1,8 @@
+<div *ngIf="contact">
+    <h2>Contact Details</h2>
+    <p><strong>Name:</strong> {{ contact.name }}</p>
+    <p><strong>Email:</strong> {{ contact.email }}</p>
+    <p><strong>Phone:</strong> {{ contact.phone }}</p>
+    <button mat-raised-button color="primary" (click)="editContact()">Edit Contact</button>
+  </div>
+  

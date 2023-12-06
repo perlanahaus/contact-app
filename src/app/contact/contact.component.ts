@@ -2,15 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
 
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
+
+  
 })
 export class ContactComponent implements OnInit {
   contacts: Contact[] = [];
   newContact: Contact = { id: 0, name: '', email: '', phone: '' };
   searchKeyword: string = '';
   emailExistsError: boolean = false;
+  selectedContact: Contact | null = null;
   editMode = false;
   editedContact: Contact = { id: 0, name: '', email: '', phone: '' };
 
@@ -47,13 +51,20 @@ export class ContactComponent implements OnInit {
   }
 
   searchContacts(): void {
-    // If the search keyword is empty, show the full list of contacts
     if (this.searchKeyword.trim() !== '') {
       this.contacts = this.contactService.searchContact(this.searchKeyword);
     } else {
       this.updateContactList();
     }
   }
+  viewDetails(contact: Contact): void {
+    if (this.selectedContact === contact) {
+      this.selectedContact = null;
+    } else {
+      this.selectedContact = contact;
+    }
+  }
+
 
   enableEditMode(contact: Contact): void {
     this.editMode = true;
@@ -64,6 +75,11 @@ export class ContactComponent implements OnInit {
     const index = this.contacts.findIndex(contact => contact.id === this.editedContact.id);
     if (index !== -1) {
       this.contactService.updateContact({ ...this.editedContact });
+      
+      if (this.selectedContact && this.selectedContact.id === this.editedContact.id) {
+        this.selectedContact = { ...this.editedContact };
+      }
+      
       this.editMode = false;
       this.editedContact = { id: 0, name: '', email: '', phone: '' };
     }

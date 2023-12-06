@@ -9,11 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { ContactComponent } from './contact/contact.component';
+import { ContactFilterPipe } from './contact-filter.pipe'; 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactComponent
+    ContactComponent,
+    ContactFilterPipe,
+    
   ],
   imports: [
     MatIconModule,
@@ -24,7 +27,6 @@ import { ContactComponent } from './contact/contact.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule
-    // Add other Angular Material modules as needed
   ],
   providers: [],
   bootstrap: [AppComponent]
