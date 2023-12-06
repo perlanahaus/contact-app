@@ -17,11 +17,10 @@ export class ContactComponent implements OnInit {
   constructor(private contactService: ContactService) {}
 
   ngOnInit() {
-    this.updateContactList();
-  }
-
-  updateContactList() {
-    this.contacts = this.contactService.getContacts();
+    // Subscribe to getContactsObservable to receive updates automatically
+    this.contactService.getContactsObservable().subscribe((updatedContacts) => {
+      this.contacts = updatedContacts;
+    });
   }
 
   addContact(): void {
@@ -29,7 +28,6 @@ export class ContactComponent implements OnInit {
       const addedSuccessfully: boolean | undefined = this.contactService.addContact(this.newContact);
       if (addedSuccessfully !== undefined && addedSuccessfully) {
         this.emailExistsError = false;
-        this.updateContactList();
         this.newContact = { id: 0, name: '', email: '', phone: '' };
       } else {
         this.emailExistsError = true;
@@ -39,18 +37,17 @@ export class ContactComponent implements OnInit {
 
   deleteContact(id: number): void {
     this.contactService.deleteContact(id);
-    this.updateContactList();
   }
 
   updateContact(contact: Contact): void {
     this.contactService.updateContact(contact);
-    this.updateContactList();
   }
 
   searchContacts(): void {
     if (this.searchKeyword.trim() !== '') {
       this.contacts = this.contactService.searchContact(this.searchKeyword);
     } else {
+      // If the search keyword is empty, show the full list of contacts
       this.updateContactList();
     }
   }
@@ -63,7 +60,7 @@ export class ContactComponent implements OnInit {
   updateEditedContact(): void {
     const index = this.contacts.findIndex(contact => contact.id === this.editedContact.id);
     if (index !== -1) {
-      this.contacts[index] = { ...this.editedContact };
+      this.contactService.updateContact({ ...this.editedContact });
       this.editMode = false;
       this.editedContact = { id: 0, name: '', email: '', phone: '' };
     }
@@ -73,4 +70,11 @@ export class ContactComponent implements OnInit {
     this.editMode = false;
     this.editedContact = { id: 0, name: '', email: '', phone: '' };
   }
+
+  private updateContactList(): void {
+    this.contactService.getContactsObservable().subscribe((updatedContacts) => {
+      this.contacts = updatedContacts;
+    });
+  }
 }
+
