@@ -21,6 +21,9 @@ export class ContactComponent implements OnInit {
     this.contactService.getContactsObservable().subscribe((updatedContacts) => {
       this.contacts = updatedContacts;
     });
+
+    // Initial update of the contact list
+    this.updateContactList();
   }
 
   addContact(): void {
@@ -44,10 +47,10 @@ export class ContactComponent implements OnInit {
   }
 
   searchContacts(): void {
+    // If the search keyword is empty, show the full list of contacts
     if (this.searchKeyword.trim() !== '') {
       this.contacts = this.contactService.searchContact(this.searchKeyword);
     } else {
-      // If the search keyword is empty, show the full list of contacts
       this.updateContactList();
     }
   }
@@ -72,9 +75,6 @@ export class ContactComponent implements OnInit {
   }
 
   private updateContactList(): void {
-    this.contactService.getContactsObservable().subscribe((updatedContacts) => {
-      this.contacts = updatedContacts;
-    });
+    this.contacts = this.contactService.getContacts();
   }
 }
-
