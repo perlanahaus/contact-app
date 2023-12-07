@@ -1,7 +1,7 @@
 <div>
   <mat-form-field appearance="fill">
     <mat-label>Search contacts</mat-label>
-    <input matInput type="text" placeholder="Search contacts" [(ngModel)]="searchKeyword" (keyup)="searchContacts()">
+    <input matInput type="text" placeholder="Search contacts" [(ngModel)]="searchKeyword" (keyup.enter)="searchContacts()">
     <button mat-button matSuffix (click)="searchContacts()">Search</button>
   </mat-form-field>
 </div>
@@ -36,11 +36,11 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let contact">
-        <button mat-icon-button color="warn" (click)="deleteContact(contact.id)">
-          <mat-icon>delete</mat-icon>
+        <button mat-icon-button (click)="deleteContact(contact.id)">
+          <mat-icon color="warn">delete</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="enableEditMode(contact)">
-          <mat-icon>edit</mat-icon>
+        <button mat-icon-button (click)="enableEditMode(contact)">
+          <mat-icon color="primary">edit</mat-icon>
         </button>
       </td>
     </ng-container>

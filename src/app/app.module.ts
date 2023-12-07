@@ -10,13 +10,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { ContactComponent } from './contact/contact.component';
 import { ContactFilterPipe } from './contact-filter.pipe'; 
+import { ContactDetailComponent } from './contact-detail/contact-detail.component'; 
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactComponent,
     ContactFilterPipe,
-    
+    ContactDetailComponent
   ],
   imports: [
     MatIconModule,
@@ -26,7 +30,9 @@ import { ContactFilterPipe } from './contact-filter.pipe';
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+     AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

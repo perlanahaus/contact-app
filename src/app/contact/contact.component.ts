@@ -1,96 +1,107 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
-
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-
-  
 })
 export class ContactComponent implements OnInit {
   contacts: Contact[] = [];
-  newContact: Contact = { id: 0, name: '', email: '', phone: '' };
+  newContact: Contact = { id: '', name: '', email: '', phone: '' };
   searchKeyword: string = '';
   emailExistsError: boolean = false;
   selectedContact: Contact | null = null;
   editMode = false;
-  editedContact: Contact = { id: 0, name: '', email: '', phone: '' };
+  editedContact: Contact = { id: '', name: '', email: '', phone: '' };
 
   constructor(private contactService: ContactService) {}
 
   ngOnInit() {
-    // Subscribe to getContactsObservable to receive updates automatically
     this.contactService.getContactsObservable().subscribe((updatedContacts) => {
       this.contacts = updatedContacts;
     });
 
-    // Initial update of the contact list
     this.updateContactList();
   }
 
-  addContact(): void {
+  async addContact(): Promise<void> {
     if (this.newContact.name && this.newContact.email && this.newContact.phone) {
-      const addedSuccessfully: boolean | undefined = this.contactService.addContact(this.newContact);
-      if (addedSuccessfully !== undefined && addedSuccessfully) {
+      try {
+        await this.contactService.addContact(this.newContact);
         this.emailExistsError = false;
-        this.newContact = { id: 0, name: '', email: '', phone: '' };
-      } else {
+        this.newContact = { id: '', name: '', email: '', phone: '' };
+      } catch (error) {
+        console.error('Error adding contact:', error);
         this.emailExistsError = true;
       }
     }
   }
 
-  deleteContact(id: number): void {
-    this.contactService.deleteContact(id);
+  async deleteContact(id: string): Promise<void> {
+    try {
+      await this.contactService.deleteContact(id);
+      this.updateContactList();
+    } catch (error) {
+      console.error('Error deleting contact:', error);
+    }
   }
 
-  updateContact(contact: Contact): void {
-    this.contactService.updateContact(contact);
+  async updateContact(contact: Contact): Promise<void> {
+    try {
+      await this.contactService.updateContact(contact);
+      this.updateContactList();
+    } catch (error) {
+      console.error('Error updating contact:', error);
+    }
   }
 
   searchContacts(): void {
     if (this.searchKeyword.trim() !== '') {
-      this.contacts = this.contactService.searchContact(this.searchKeyword);
+      this.contactService.searchContact(this.searchKeyword).subscribe((result) => {
+        this.contacts = result;
+      });
     } else {
       this.updateContactList();
     }
   }
-  viewDetails(contact: Contact): void {
-    if (this.selectedContact === contact) {
-      this.selectedContact = null;
-    } else {
-      this.selectedContact = contact;
-    }
-  }
 
+  viewDetails(contact: Contact): void {
+    this.selectedContact = this.selectedContact === contact ? null : contact;
+  }
 
   enableEditMode(contact: Contact): void {
     this.editMode = true;
     this.editedContact = { ...contact };
   }
 
-  updateEditedContact(): void {
-    const index = this.contacts.findIndex(contact => contact.id === this.editedContact.id);
+  async updateEditedContact(): Promise<void> {
+    const index = this.contacts.findIndex((contact) => contact.id === this.editedContact.id);
     if (index !== -1) {
-      this.contactService.updateContact({ ...this.editedContact });
-      
-      if (this.selectedContact && this.selectedContact.id === this.editedContact.id) {
-        this.selectedContact = { ...this.editedContact };
+      try {
+        await this.contactService.updateContact({ ...this.editedContact });
+        if (this.selectedContact && this.selectedContact.id === this.editedContact.id) {
+          this.selectedContact = { ...this.editedContact };
+        }
+
+        this.editMode = false;
+        this.editedContact = { id: '', name: '', email: '', phone: '' };
+        this.updateContactList();
+      } catch (error) {
+        console.error('Error updating edited contact:', error);
       }
-      
-      this.editMode = false;
-      this.editedContact = { id: 0, name: '', email: '', phone: '' };
     }
   }
 
   cancelEditMode(): void {
     this.editMode = false;
-    this.editedContact = { id: 0, name: '', email: '', phone: '' };
+    this.editedContact = { id: '', name: '', email: '', phone: '' };
   }
 
   private updateContactList(): void {
-    this.contacts = this.contactService.getContacts();
+    this.contactService.getContactsObservable().pipe(take(1)).subscribe((contacts) => {
+      this.contacts = contacts;
+    });
   }
 }
