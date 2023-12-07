@@ -103,5 +103,10 @@ export class ContactComponent implements OnInit {
     this.contactService.getContactsObservable().pipe(take(1)).subscribe((contacts) => {
       this.contacts = contacts;
     });
+  
+  }
+  addRandomContacts(): void {
+    const count = 5; 
+    this.contactService.generateRandomContacts(count);
   }
 }

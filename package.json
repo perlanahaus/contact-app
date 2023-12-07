@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
     "@faker-js/faker": "^8.3.1",
+    "@ngneat/falso": "^7.1.1",
+    "@types/faker": "^6.6.9",
     "faker": "^6.6.6",
     "firebase": "^10.7.1",
     "rxjs": "~7.5.0",
