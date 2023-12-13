@@ -1,10 +1,3 @@
-<div>
-  <mat-form-field appearance="fill">
-    <mat-label>Search contacts</mat-label>
-    <input matInput type="text" placeholder="Search contacts" [(ngModel)]="searchKeyword" (keyup.enter)="searchContacts()">
-    <button mat-button matSuffix (click)="searchContacts()">Search</button>
-  </mat-form-field>
-</div>
 
 <!-- Display contact details -->
 <div *ngIf="!editMode">

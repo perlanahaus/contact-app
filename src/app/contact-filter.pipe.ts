@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Contact } from './contact.model';
+import { Contact } from './contact/contact.model';
 
 @Pipe({
   name: 'contactFilter'

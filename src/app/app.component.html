@@ -1,0 +1,16 @@
+<nav>
+    <a *ngIf="authService.isAuthenticated" routerLink="/contacts" routerLinkActive="active">Contacts</a>
+    <a *ngIf="!authService.isAuthenticated" routerLink="/register" routerLinkActive="active">Register</a>
+    <a *ngIf="!authService.isAuthenticated" routerLink="/signin" routerLinkActive="active">Sign In</a>
+    <a *ngIf="authService.isAuthenticated" (click)="logout()" routerLink="/signin" routerLinkActive="active">Logout</a>
+  </nav>
+  
+  <router-outlet></router-outlet>
+  
+  <div *ngIf="authService.isAuthenticated">
+    <h3>User Information</h3>
+    <p><strong>ID:</strong> {{ user?.uid }}</p>
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <p><strong>Display Name:</strong> {{ user?.displayName || 'N/A' }}</p>
+  </div>
+  

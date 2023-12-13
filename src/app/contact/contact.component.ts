@@ -1,6 +1,8 @@
+// contact.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../contact.model';
-import { ContactService } from '../contact.service';
+import { Contact } from './contact.model';
+import { ContactService } from './contact.service';
+import { AuthService } from '../auth.service';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -15,12 +17,17 @@ export class ContactComponent implements OnInit {
   selectedContact: Contact | null = null;
   editMode = false;
   editedContact: Contact = { id: '', name: '', email: '', phone: '' };
+  user: any;
 
-  constructor(private contactService: ContactService) {}
+  constructor(private contactService: ContactService, private authService: AuthService) {}
 
   ngOnInit() {
     this.contactService.getContactsObservable().subscribe((updatedContacts) => {
       this.contacts = updatedContacts;
+    });
+
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.user = user;
     });
 
     this.updateContactList();
@@ -103,10 +110,10 @@ export class ContactComponent implements OnInit {
     this.contactService.getContactsObservable().pipe(take(1)).subscribe((contacts) => {
       this.contacts = contacts;
     });
-  
   }
+
   addRandomContacts(): void {
-    const count = 5; 
+    const count = 5;
     this.contactService.generateRandomContacts(count);
   }
 }
