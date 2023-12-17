@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegistrationComponent } from '../registration/registration.component';
-import { ErrorComponent } from '../error/error.component';
-import { SigninComponent } from '../signin/signin.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/contacts', pathMatch: 'full' },

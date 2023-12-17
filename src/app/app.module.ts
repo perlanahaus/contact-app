@@ -1,7 +1,6 @@
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
@@ -13,26 +12,20 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
-import { ContactComponent } from './contact/contact.component';
-import { ContactFilterPipe } from './contact-filter.pipe'; 
-import { ContactDetailComponent } from './contact-detail/contact-detail.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { ErrorComponent } from './error/error.component';
+import { MatMenuModule } from '@angular/material/menu';
 import { AuthService } from './auth.service';
-import { ContactService } from './contact/contact.service';
+import { ContactService } from './contact//contact.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { AppComponent } from './app.component';
-import { SigninComponent } from './signin/signin.component';
-//import { TranslocoModule, TRANSLOCO_CONFIG, TranslocoConfig } from '@ngneat/transloco';
+import { LanguageSelectorComponent } from './language-selector/language-selector.component';
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    //ContactComponent,
-   // ContactFilterPipe,
-   // ContactDetailComponent,
-    //RegistrationComponent,
-    //ErrorComponent,
-   // SigninComponent
+    LanguageSelectorComponent,
   ],
   imports: [
     MatIconModule,
@@ -43,23 +36,18 @@ import { SigninComponent } from './signin/signin.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AppRoutingModule,
-    
-    //TranslocoModule,
+
+    MatButtonModule,
+    MatMenuModule,
+
+
   ],
-  providers: [AuthService, ContactService, 
-    //{
-    //provide: TRANSLOCO_CONFIG,
-    //useValue: {
-      //availableLangs: ['en', 'de'],
-      //defaultLang: 'en',
-      //fallbackLang: 'en',
-     // prodMode: environment.production,
-   // } as TranslocoConfig
- // }
+  providers: [AuthService, ContactService,
 ],
   bootstrap: [AppComponent]
 })

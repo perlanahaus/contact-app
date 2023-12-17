@@ -1,0 +1,16 @@
+{
+    "nav": {
+      "contacts": "Kontakte",
+      "register": "Registrieren",
+      "signIn": "Anmelden",
+      "logout": "Abmelden"
+    },
+    "userInformation": {
+      "title": "Benutzerinformation",
+      "id": "ID",
+      "email": "E-Mail",
+      "displayName": "Anzeigename"
+    },
+    "language": "Sprache"
+  }
+  

@@ -1,16 +1,16 @@
 <nav>
-    <a *ngIf="authService.isAuthenticated" routerLink="/contacts" routerLinkActive="active">Contacts</a>
-    <a *ngIf="!authService.isAuthenticated" routerLink="/register" routerLinkActive="active">Register</a>
-    <a *ngIf="!authService.isAuthenticated" routerLink="/signin" routerLinkActive="active">Sign In</a>
-    <a *ngIf="authService.isAuthenticated" (click)="logout()" routerLink="/signin" routerLinkActive="active">Logout</a>
-  </nav>
-  
-  <router-outlet></router-outlet>
-  
-  <div *ngIf="authService.isAuthenticated">
-    <h3>User Information</h3>
-    <p><strong>ID:</strong> {{ user?.uid }}</p>
-    <p><strong>Email:</strong> {{ user?.email }}</p>
-    <p><strong>Display Name:</strong> {{ user?.displayName || 'N/A' }}</p>
-  </div>
-  
+  <app-language-selector></app-language-selector>
+  <a *ngIf="authService.isAuthenticated" routerLink="/contacts" routerLinkActive="active"> 'nav.contacts' | transloco </a>
+  <a *ngIf="!authService.isAuthenticated" routerLink="/register" routerLinkActive="active"> 'nav.register' | transloco </a>
+  <a *ngIf="!authService.isAuthenticated" routerLink="/signin" routerLinkActive="active"> 'nav.signIn' | transloco </a>
+  <a *ngIf="authService.isAuthenticated" (click)="logout()" routerLink="/signin" routerLinkActive="active"> 'nav.logout' | transloco </a>
+</nav>
+
+<router-outlet></router-outlet>
+
+<div *ngIf="authService.isAuthenticated">
+  <h3>{{ 'userInformation.title' | transloco }}</h3>
+  <p><strong>{{ 'userInformation.id' | transloco }}</strong> {{ user?.uid }}</p>
+  <p><strong>{{ 'userInformation.email' | transloco }}</strong> {{ user?.email }}</p>
+  <p><strong>{{ 'userInformation.displayName' | transloco }}</strong> {{ user?.displayName || 'N/A' }}</p>
+</div>

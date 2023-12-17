@@ -1,0 +1,16 @@
+{
+    "nav": {
+      "contacts": "Contacts",
+      "register": "Register",
+      "signIn": "Sign In",
+      "logout": "Logout"
+    },
+    "userInformation": {
+      "title": "User Information",
+      "id": "ID",
+      "email": "Email",
+      "displayName": "Display Name"
+    },
+    "language": "Language"
+  }
+  
